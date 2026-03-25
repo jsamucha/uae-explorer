@@ -24,29 +24,19 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       var errText = await response.text();
-      return res.status(response.status).json({ error: "Bayut API returned " + response.status + ": " + errText });
+      return res.status(200).json({ error: "Bayut returned " + response.status, detail: errText });
     }
 
     var data = await response.json();
-    var results = Array.isArray(data) ? data : (data.hits || data.results || []);
 
-    var locations = [];
-    for (var i = 0; i < results.length; i++) {
-      var h = results[i];
-      var id = h.externalID || h.id || h.external_id || "";
-      var name = h.name || h.title || "";
-      var pathParts = [];
-      if (h.geography) {
-        if (h.geography.level1 && h.geography.level1.name) pathParts.push(h.geography.level1.name);
-        if (h.geography.level2 && h.geography.level2.name) pathParts.push(h.geography.level2.name);
-        if (h.geography.level3 && h.geography.level3.name) pathParts.push(h.geography.level3.name);
-      }
-      if (id && name) {
-        locations.push({ id: String(id), name: name, path: pathParts.join(" > ") });
-      }
-    }
-
-    return res.status(200).json({ locations: locations });
+    return res.status(200).json({
+      debug_raw_type: typeof data,
+      debug_is_array: Array.isArray(data),
+      debug_keys: data && typeof data === "object" ? Object.keys(data) : [],
+      debug_first_item: Array.isArray(data) && data.length > 0 ? data[0] : (data.hits && data.hits.length > 0 ? data.hits[0] : null),
+      debug_raw_length: Array.isArray(data) ? data.length : "not array",
+      locations: [],
+    });
   } catch (err) {
     return res.status(500).json({ error: err.message || "Unknown error" });
   }
