@@ -120,10 +120,10 @@ input,select,button{font-family:inherit}
         </div>
         <div class="dd" id="locd"></div>
       </div>
-      <div class="ff"><label class="lbl">Category</label><select class="sel" id="fc" style="width:100%"><option value="4">Apartments</option><option value="16">Villas</option><option value="18">Townhouses</option><option value="3">Commercial</option></select></div>
+      <div class="ff"><label class="lbl">Category</label><select class="sel" id="fc" style="width:100%"><option value="apartments">Apartments</option><option value="villas">Villas</option><option value="townhouses">Townhouses</option><option value="penthouse">Penthouse</option><option value="residential">All Residential</option><option value="commercial">Commercial</option></select></div>
       <div class="ff"><label class="lbl">Beds</label><select class="sel" id="fb" style="width:100%"><option value="">Any</option><option value="0">Studio</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5+</option></select></div>
       <div style="display:flex;gap:8px;align-items:flex-end">
-        <button class="btn" id="sbtn" onclick="doSearch()">Search</button>
+        <button class="btn" id="sbtn" onclick="doSearch(1)">Search</button>
         <button class="btn2" style="padding:9px 12px" onclick="togFilt()">&#9881;</button>
       </div>
     </div>
@@ -135,7 +135,7 @@ input,select,button{font-family:inherit}
       <div class="ff"><label class="lbl">AED/sqft Max</label><input class="inp" id="fsx" type="number" placeholder="No max"></div>
       <div class="ff"><label class="lbl">Furnishing</label><select class="sel" id="ffu" style="width:100%"><option value="">Any</option><option value="furnished">Furnished</option><option value="unfurnished">Unfurnished</option></select></div>
       <div class="ff"><label class="lbl">Status</label><select class="sel" id="fco" style="width:100%"><option value="">Any</option><option value="completed">Ready</option><option value="under_construction">Off-Plan</option></select></div>
-      <div class="ff"><label class="lbl">Sort</label><select class="sel" id="fso" style="width:100%"><option value="city-level-score">Relevance</option><option value="price-desc">Price &#8595;</option><option value="price-asc">Price &#8593;</option><option value="date-desc">Newest</option><option value="area-desc">Largest</option></select></div>
+      <div class="ff"><label class="lbl">Sort</label><select class="sel" id="fso" style="width:100%"><option value="popular">Popular</option><option value="lowest_price">Price &#8593;</option><option value="latest">Newest</option><option value="verified">Verified</option></select></div>
     </div>
     <div style="margin-top:12px;display:flex;justify-content:flex-end">
       <button class="btn2" style="font-size:12px;padding:6px 14px" onclick="saveSrch()">&#9733; Save search</button>
@@ -231,7 +231,7 @@ function togFilt() {
 
 /* ---- Search ---- */
 function doSearch(page) {
-  if (page === undefined) page = 0;
+  if (page === undefined) page = 1;
   if (!loc) { showErr("Select a location first"); return; }
   pg = page;
   showLoad(true);
@@ -239,16 +239,17 @@ function doSearch(page) {
   $("empty").style.display = "none";
 
   var beds = $("fb").value;
-  var qs = "locationId=" + encodeURIComponent(loc.id);
-  qs += "&category=" + $("fc").value;
+  var qs = "purpose=for-sale";
+  qs += "&location_ids=" + encodeURIComponent(loc.id);
+  qs += "&property_type=" + $("fc").value;
   qs += "&page=" + page;
-  qs += "&sort=" + $("fso").value;
-  if (beds) { qs += "&roomsMin=" + beds + "&roomsMax=" + beds; }
-  if ($("fba").value) qs += "&bathsMin=" + $("fba").value;
-  if ($("fpn").value) qs += "&priceMin=" + $("fpn").value;
-  if ($("fpx").value) qs += "&priceMax=" + $("fpx").value;
-  if ($("ffu").value) qs += "&furnishingStatus=" + $("ffu").value;
-  if ($("fco").value) qs += "&completionStatus=" + $("fco").value;
+  qs += "&sort_order=" + $("fso").value;
+  if (beds) qs += "&rooms=" + beds;
+  if ($("fba").value) qs += "&baths=" + $("fba").value;
+  if ($("fpn").value) qs += "&price_min=" + $("fpn").value;
+  if ($("fpx").value) qs += "&price_max=" + $("fpx").value;
+  if ($("ffu").value) qs += "&is_furnished=" + $("ffu").value;
+  if ($("fco").value) qs += "&completion_status=" + $("fco").value;
 
   fetch("/api/search?" + qs)
     .then(function(r){return r.json()})
@@ -262,8 +263,8 @@ function doSearch(page) {
       tpg = d.pages || 0;
 
       /* Fetch rental comps */
-      var rqs = "locationId=" + encodeURIComponent(loc.id) + "&category=" + $("fc").value;
-      if (beds) rqs += "&roomsMin=" + beds + "&roomsMax=" + beds;
+      var rqs = "location_ids=" + encodeURIComponent(loc.id) + "&property_type=" + $("fc").value;
+      if (beds) rqs += "&rooms=" + beds;
       fetch("/api/rentals?" + rqs)
         .then(function(r){return r.json()})
         .then(function(rd){ rent = rd.avgRentYearly || null; render(); })
@@ -383,7 +384,7 @@ function ldSrch(i) {
   loc = s.loc; loci.value = ""; loci.placeholder = loc.name;
   $("fc").value = s.fc||"4"; $("fb").value = s.fb||""; $("fba").value = s.fba||"";
   $("fpn").value = s.fpn||""; $("fpx").value = s.fpx||""; $("fsn").value = s.fsn||""; $("fsx").value = s.fsx||"";
-  $("ffu").value = s.ffu||""; $("fco").value = s.fco||""; $("fso").value = s.fso||"city-level-score";
+  $("ffu").value = s.ffu||""; $("fco").value = s.fco||""; $("fso").value = s.fso||"popular";
 }
 function dlSrch(i) {
   svd.splice(i, 1);

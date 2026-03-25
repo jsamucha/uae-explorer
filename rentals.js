@@ -1,46 +1,43 @@
 export default async function handler(req, res) {
   var p = req.query;
-  if (!p.locationId) {
-    return res.status(400).json({ error: "locationId is required" });
-  }
 
   var apiKey = process.env.RAPIDAPI_KEY;
-  var apiHost = process.env.RAPIDAPI_HOST || "bayut-api1.p.rapidapi.com";
+  var apiHost = process.env.RAPIDAPI_HOST || "bayut14.p.rapidapi.com";
 
   if (!apiKey) {
     return res.status(500).json({ error: "RAPIDAPI_KEY not configured" });
   }
 
   var params = new URLSearchParams();
-  params.set("locationExternalIDs", p.locationId);
   params.set("purpose", "for-rent");
-  params.set("rentFrequency", "yearly");
-  params.set("categoryExternalID", p.category || "4");
-  params.set("hitsPerPage", "10");
-  params.set("page", "0");
-  params.set("lang", "en");
-  params.set("sort", "city-level-score");
+  params.set("rent_frequency", "yearly");
+  params.set("page", "1");
+  params.set("langs", "en");
 
-  if (p.roomsMin) params.set("roomsMin", p.roomsMin);
-  if (p.roomsMax) params.set("roomsMax", p.roomsMax);
+  if (p.location_ids) params.set("location_ids", p.location_ids);
+  if (p.rooms) params.set("rooms", p.rooms);
+  if (p.property_type) params.set("property_type", p.property_type);
 
   try {
-    var url = "https://" + apiHost + "/properties/list?" + params.toString();
+    var url = "https://" + apiHost + "/search-property?" + params.toString();
     var response = await fetch(url, {
       method: "GET",
       headers: {
+        "Content-Type": "application/json",
         "X-RapidAPI-Key": apiKey,
         "X-RapidAPI-Host": apiHost,
       },
     });
 
     if (!response.ok) {
-      return res.status(response.status).json({ error: "Bayut API returned " + response.status });
+      var errText = await response.text();
+      return res.status(response.status).json({ error: "Bayut API returned " + response.status + ": " + errText });
     }
 
     var data = await response.json();
+    var hits = Array.isArray(data) ? data : (data.hits || data.results || data.properties || []);
+
     var rents = [];
-    var hits = data.hits || [];
     for (var i = 0; i < hits.length; i++) {
       if (hits[i].price) rents.push(hits[i].price);
     }
