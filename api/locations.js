@@ -28,15 +28,12 @@ export default async function handler(req, res) {
     }
 
     var data = await response.json();
-    var inner = data.data;
+    var locs = data.data && data.data.locations ? data.data.locations : [];
 
     return res.status(200).json({
-      debug_success: data.success,
-      debug_data_type: typeof inner,
-      debug_data_is_array: Array.isArray(inner),
-      debug_data_keys: inner && typeof inner === "object" && !Array.isArray(inner) ? Object.keys(inner) : [],
-      debug_data_length: Array.isArray(inner) ? inner.length : "not array",
-      debug_first_item: Array.isArray(inner) && inner.length > 0 ? inner[0] : null,
+      debug_total: data.data ? data.data.total : 0,
+      debug_count: locs.length,
+      debug_first_two: locs.slice(0, 2),
       locations: [],
     });
   } catch (err) {
