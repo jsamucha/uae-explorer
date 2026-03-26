@@ -136,7 +136,7 @@ input,select,button{font-family:inherit}
       <div class="ff"><label class="lbl">AED/sqft Max</label><input class="inp" id="fsx" type="number" placeholder="No max"></div>
       <div class="ff"><label class="lbl">Furnishing</label><select class="sel" id="ffu" style="width:100%"><option value="">Any</option><option value="furnished">Furnished</option><option value="unfurnished">Unfurnished</option></select></div>
       <div class="ff"><label class="lbl">Status</label><select class="sel" id="fco" style="width:100%"><option value="">Any</option><option value="completed">Ready</option><option value="under_construction">Off-Plan</option></select></div>
-      <div class="ff"><label class="lbl">Sort</label><select class="sel" id="fso" style="width:100%"><option value="popular">Popular</option><option value="lowest_price">Price &#8593;</option><option value="latest">Newest</option><option value="verified">Verified</option></select></div>
+      <div class="ff"><label class="lbl">Sort</label><select class="sel" id="fso" style="width:100%"><option value="popular">Popular</option><option value="lowest_price">Price &#8593;</option><option value="latest">Newest</option><option value="verified">Verified</option><option value="_sqft_asc">AED/sqft &#8593;</option><option value="_sqft_desc">AED/sqft &#8595;</option></select></div>
     </div>
     <div style="margin-top:12px;display:flex;justify-content:flex-end">
       <button class="btn2" style="font-size:12px;padding:6px 14px" onclick="saveSrch()">&#9733; Save search</button>
@@ -229,11 +229,15 @@ function doSearch(page) {
   $("empty").style.display = "none";
 
   var beds = $("fb").value;
+  var sortVal = $("fso").value;
+  var isClientSort = sortVal.indexOf("_sqft") === 0;
+
   var qs = "purpose=for-sale";
   qs += "&location_ids=" + encodeURIComponent(loc.id);
   qs += "&property_type=" + $("fc").value;
   qs += "&page=" + page;
-  qs += "&sort_order=" + $("fso").value;
+  if (!isClientSort) qs += "&sort_order=" + sortVal;
+  else qs += "&sort_order=popular";
   if (beds) qs += "&rooms=" + beds;
   if ($("fba").value) qs += "&baths=" + $("fba").value;
   if ($("fpn").value) qs += "&price_min=" + $("fpn").value;
@@ -249,6 +253,12 @@ function doSearch(page) {
       var sn = $("fsn").value, sx = $("fsx").value;
       if (sn) list = list.filter(function(l){return l.pricePerSqft && l.pricePerSqft >= Number(sn)});
       if (sx) list = list.filter(function(l){return l.pricePerSqft && l.pricePerSqft <= Number(sx)});
+      /* Client-side sort by AED/sqft */
+      if (sortVal === "_sqft_asc") {
+        list.sort(function(a,b){ return (a.pricePerSqft||999999) - (b.pricePerSqft||999999); });
+      } else if (sortVal === "_sqft_desc") {
+        list.sort(function(a,b){ return (b.pricePerSqft||0) - (a.pricePerSqft||0); });
+      }
       items = list;
       tpg = d.pages || 0;
       render();
@@ -369,7 +379,10 @@ function render() {
     html += '<div class="cpr">'+fa(l.price)+'</div>';
     if (l.priceChanged && l.updated) html += '<div style="font-size:11px;color:var(--amb);margin-top:3px">&#8635; Updated '+esc(l.updated)+'</div>';
     html += '</div>';
+    html += '<div style="display:flex;gap:6px;align-items:flex-start">';
+    if (l.pricePerSqft) html += '<div style="padding:4px 10px;border-radius:6px;background:var(--acg);text-align:center;flex-shrink:0"><div class="mono" style="font-size:14px;font-weight:700;color:var(--ac)">'+fm(l.pricePerSqft)+'</div><div style="font-size:9px;color:var(--ac);opacity:.8">AED/sqft</div></div>';
     html += '<div class="yld" id="yield-'+i+'" style="display:none"></div>';
+    html += '</div>';
     html += '</div>';
     html += '<div class="ctt">'+esc(l.title)+'</div>';
     html += '<div class="csp">';
