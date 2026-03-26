@@ -4,7 +4,6 @@ export default async function handler(req, res) {
   var apiHost = process.env.RAPIDAPI_HOST || "bayut14.p.rapidapi.com";
   if (!apiKey) return res.status(500).json({ error: "RAPIDAPI_KEY not configured" });
 
-  /* We need location_ids and ideally areaSqft to find comps */
   var locationId = p.location_ids || "";
   var areaSqft = parseInt(p.area_sqft || "0", 10);
   var rooms = p.rooms || "";
@@ -12,7 +11,11 @@ export default async function handler(req, res) {
 
   if (!locationId) return res.status(200).json({ comps: [], avgRent: null, count: 0 });
 
-  /* Try tight range first (±15%), then widen (±30%) if not enough comps */
+  /*
+   * area_min/area_max in the bayut14 search-property API accepts sqft values
+   * (confirmed from the API docs screenshot). So we pass sqft directly.
+   * But the response returns area in m2. We convert response area to sqft for display.
+   */
   var comps = [];
   var attempts = [0.15, 0.30, 0.50];
 
@@ -54,7 +57,6 @@ export default async function handler(req, res) {
     }
   }
 
-  /* Parse comps into clean format */
   var parsed = [];
   var rents = [];
   for (var i = 0; i < comps.length && i < 10; i++) {
@@ -65,10 +67,10 @@ export default async function handler(req, res) {
     var title = "";
     if (h.title) title = (typeof h.title === "object" && h.title.en) ? h.title.en : (typeof h.title === "string" ? h.title : "");
 
-    var compArea = null;
-    if (h.area) {
-      compArea = Math.round(h.area);
-      if (compArea < 50 && h.price && h.price > 10000) compArea = Math.round(h.area * 10.764);
+    /* Convert area from m2 to sqft */
+    var compAreaSqft = null;
+    if (h.area && typeof h.area === "number") {
+      compAreaSqft = Math.round(h.area * 10.764);
     }
 
     var locParts = [];
@@ -87,7 +89,7 @@ export default async function handler(req, res) {
       id: String(externalId),
       title: title,
       rent: rent,
-      areaSqft: compArea,
+      areaSqft: compAreaSqft,
       rooms: h.rooms != null ? h.rooms : null,
       location: locParts.length > 2 ? locParts.slice(-3).join(", ") : locParts.join(", "),
       url: h.shareUrl || (externalId ? "https://www.bayut.com/property/details-" + externalId + ".html" : null),

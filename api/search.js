@@ -39,8 +39,7 @@ export default async function handler(req, res) {
 
     var listings = [];
     for (var i = 0; i < hits.length; i++) {
-      var h = hits[i];
-      listings.push(parseHit(h));
+      listings.push(parseHit(hits[i]));
     }
 
     return res.status(200).json({ listings: listings, total: total, pages: pages, page: parseInt(p.page || "1", 10) });
@@ -61,13 +60,11 @@ function parseHit(h) {
   var updatedAt = h.updatedAt || 0;
   var priceChanged = updatedAt > 0 && createdAt > 0 && (updatedAt - createdAt) > 86400;
 
+  /* Area: API returns m2 in the "area" field. Convert to sqft. */
   var areaSqft = null;
-  if (h.area) {
-    areaSqft = Math.round(h.area);
-    if (areaSqft < 50 && h.price && h.price > 100000) areaSqft = Math.round(h.area * 10.764);
+  if (h.area && typeof h.area === "number") {
+    areaSqft = Math.round(h.area * 10.764);
   }
-  if (!areaSqft && h.sqArea) areaSqft = Math.round(h.sqArea);
-  if (!areaSqft && h.size) areaSqft = Math.round(h.size);
 
   var price = h.price || 0;
   var pricePerSqft = areaSqft && price ? Math.round(price / areaSqft) : null;
@@ -82,7 +79,6 @@ function parseHit(h) {
     }
   }
 
-  /* Extract the most specific location IDs for comps matching */
   var locationIds = [];
   if (h.location && Array.isArray(h.location)) {
     for (var k = 0; k < h.location.length; k++) {
