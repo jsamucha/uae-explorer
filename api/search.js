@@ -19,7 +19,6 @@ export default async function handler(req, res) {
   if (p.is_furnished) params.set("is_furnished", p.is_furnished);
   if (p.completion_status && p.completion_status !== "any") params.set("completion_status", p.completion_status);
   if (p.sort_order) params.set("sort_order", p.sort_order);
-  if (p.rent_frequency) params.set("rent_frequency", p.rent_frequency);
   if (p.purpose === "for-rent") params.set("rent_frequency", p.rent_frequency || "yearly");
 
   try {
@@ -31,25 +30,35 @@ export default async function handler(req, res) {
     if (!response.ok) return res.status(200).json({ error: "Bayut returned " + response.status, listings: [] });
 
     var raw = await response.json();
-    var hits = [];
-    var total = 0;
-    var pages = 0;
+    var data = raw.data || raw;
+    var hits = data.hits || data.properties || data.listings || data.results || [];
+    var total = data.nbHits || data.total || data.count || hits.length;
+    var pages = data.nbPages || data.total_pages || 0;
 
-    if (raw.data) {
-      hits = raw.data.hits || raw.data.properties || raw.data.listings || raw.data.results || [];
-      total = raw.data.nbHits || raw.data.total || hits.length;
-      pages = raw.data.nbPages || raw.data.total_pages || Math.ceil(total / 24) || 1;
-    }
+    /* If API doesn't return page count, calculate from total (24 per page) */
+    if (!pages && total > 0) pages = Math.ceil(total / 24);
+    if (pages < 1) pages = 1;
 
     var listings = [];
     for (var i = 0; i < hits.length; i++) {
       var h = hits[i];
       var createdAt = h.createdAt || 0;
       var updatedAt = h.updatedAt || 0;
-      var areaSqft = h.area ? Math.round(h.area) : null;
+      var priceChanged = updatedAt > 0 && createdAt > 0 && (updatedAt - createdAt) > 86400;
+
+      /* Area: try multiple fields. Bayut14 area_min/max is sqft, so h.area is likely sqft.
+         But some APIs return m2. We try to detect: if there's an 'sqArea' or area > 100 assume sqft */
+      var areaSqft = null;
+      if (h.area) {
+        areaSqft = Math.round(h.area);
+        /* If area seems like m2 (very small for a property), convert */
+        if (areaSqft < 50 && h.price && h.price > 100000) areaSqft = Math.round(h.area * 10.764);
+      }
+      if (!areaSqft && h.sqArea) areaSqft = Math.round(h.sqArea);
+      if (!areaSqft && h.size) areaSqft = Math.round(h.size);
+
       var price = h.price || 0;
       var pricePerSqft = areaSqft && price ? Math.round(price / areaSqft) : null;
-      var priceChanged = updatedAt > 0 && createdAt > 0 && (updatedAt - createdAt) > 86400;
 
       var title = "";
       if (h.title) title = (typeof h.title === "object" && h.title.en) ? h.title.en : (typeof h.title === "string" ? h.title : "");
@@ -57,20 +66,18 @@ export default async function handler(req, res) {
       var locParts = [];
       if (h.location && Array.isArray(h.location)) {
         for (var j = 0; j < h.location.length; j++) {
-          var locName = "";
+          var ln = "";
           if (h.location[j] && h.location[j].name) {
-            locName = (typeof h.location[j].name === "object" && h.location[j].name.en) ? h.location[j].name.en : (typeof h.location[j].name === "string" ? h.location[j].name : "");
+            ln = (typeof h.location[j].name === "object" && h.location[j].name.en) ? h.location[j].name.en : (typeof h.location[j].name === "string" ? h.location[j].name : "");
           }
-          if (locName) locParts.push(locName);
+          if (ln) locParts.push(ln);
         }
       }
 
       var typeName = "";
       if (h.category && Array.isArray(h.category)) {
         var cat = h.category[h.category.length - 1] || h.category[0];
-        if (cat && cat.name) {
-          typeName = (typeof cat.name === "object" && cat.name.en) ? cat.name.en : (typeof cat.name === "string" ? cat.name : "");
-        }
+        if (cat && cat.name) typeName = (typeof cat.name === "object" && cat.name.en) ? cat.name.en : (typeof cat.name === "string" ? cat.name : "");
       }
 
       var photoUrl = null;
@@ -107,3 +114,15 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: err.message, listings: [] });
   }
 }
+```
+
+Now update the **pagination in `index.html`**. Find the pagination section (search for `/* Pagination */` or `tpg > 1`) and also fix the stats bar page display. The easiest way — find this line in your `index.html`:
+
+Find:
+```
++ '<div class="st"><div class="stl">Listings</div><div class="stv">'+fm(items.length)+'</div><div class="sts">page '+(pg+1)+'/'+(tpg||1)+'</div></div>'
+```
+
+Replace with:
+```
++ '<div class="st"><div class="stl">Listings</div><div class="stv">'+fm(items.length)+'</div><div class="sts">page '+pg+'/'+(tpg||1)+'</div></div>'
