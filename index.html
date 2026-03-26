@@ -21,9 +21,8 @@
 }
 body{background:var(--bg);color:var(--t1);font-family:var(--sans)}
 a{color:var(--ac);text-decoration:none}
+a:hover{text-decoration:underline}
 input,select,button{font-family:inherit}
-
-/* Components */
 .lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:5px;display:block}
 .inp{padding:8px 12px;border-radius:8px;border:1px solid var(--brd);background:var(--bg);color:var(--t1);font-size:13px;width:100%;outline:none}
 .inp:focus{border-color:var(--ac)}
@@ -33,8 +32,6 @@ input,select,button{font-family:inherit}
 .btn2{padding:8px 16px;border-radius:8px;border:1px solid var(--brd);background:transparent;color:var(--t2);font-size:13px;font-weight:600;cursor:pointer}
 .btn2:hover{border-color:var(--brd2)}
 .mono{font-family:var(--mono)}
-
-/* Layout */
 .hdr{border-bottom:1px solid var(--brd);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:50;background:var(--bg)}
 .wrap{max-width:1200px;margin:0 auto;padding:20px 24px}
 .sbox{background:var(--card);border-radius:14px;border:1px solid var(--brd);padding:20px;margin-bottom:20px}
@@ -45,19 +42,13 @@ input,select,button{font-family:inherit}
 .ddi{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--brd)}
 .ddi:hover{background:var(--hover)}
 .fext{margin-top:16px;padding-top:16px;border-top:1px solid var(--brd);display:none;flex-wrap:wrap;gap:12px;align-items:flex-end}
-
-/* Stats */
 .sbar{display:flex;gap:24px;flex-wrap:wrap;padding:18px 20px;background:var(--card);border-radius:12px;border:1px solid var(--brd);margin-bottom:20px}
 .st{flex:1 1 130px}
 .stl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
 .stv{font-family:var(--mono);font-size:20px;font-weight:700;letter-spacing:-.03em}
 .sts{font-size:11px;color:var(--t3);margin-top:2px}
-
-/* Grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
-
-/* Card */
 .cd{background:var(--card);border-radius:12px;border:1px solid var(--brd);overflow:hidden;transition:border-color .2s,transform .2s}
 .cd:hover{border-color:var(--brd2);transform:translateY(-2px)}
 .cimg{height:150px;overflow:hidden;position:relative;background:#0a0d15}
@@ -73,13 +64,10 @@ input,select,button{font-family:inherit}
 .ctt{font-size:13px;color:var(--t2);margin-top:8px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .csp{display:flex;gap:14px;margin-top:10px;font-size:12px;color:var(--t2)}
 .clc{font-size:11px;color:var(--t3);margin-top:8px}
-.rnt{margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--brd);font-size:11px;color:var(--t2)}
 .tg{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;background:var(--bg);color:var(--t3);border:1px solid var(--brd);margin-right:4px;margin-top:4px}
-.blnk{display:block;margin-top:12px;padding:8px;border-radius:8px;border:1px solid var(--brd);text-align:center;font-size:12px;font-weight:600;color:var(--ac);transition:all .15s}
-.blnk:hover{background:var(--acg);border-color:var(--ac);text-decoration:none}
+.blnk{display:inline-block;margin-top:12px;padding:8px 12px;border-radius:8px;border:1px solid var(--brd);font-size:12px;font-weight:600;color:var(--ac);transition:all .15s;text-decoration:none !important}
+.blnk:hover{background:var(--acg);border-color:var(--ac)}
 .yld{padding:4px 10px;border-radius:6px;text-align:center;flex-shrink:0}
-
-/* Misc */
 .svd{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:var(--card);border:1px solid var(--brd);font-size:12px;margin:0 8px 8px 0}
 .svd span:first-child{cursor:pointer;font-weight:600;color:var(--t1)}
 .svd span:last-child{cursor:pointer;color:var(--t3)}
@@ -90,12 +78,27 @@ input,select,button{font-family:inherit}
 .apib{padding:3px 8px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:.05em}
 .apiok{background:var(--grnb);color:var(--grn)}
 .apierr{background:var(--redb);color:var(--cor)}
+.comp-box{margin-top:10px;padding:10px;border-radius:8px;background:var(--bg);border:1px solid var(--brd);font-size:11px}
+.comp-item{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--brd)}
+.comp-item:last-child{border-bottom:none}
+.yield-note{font-size:10px;color:var(--t3);font-style:italic;margin-top:6px}
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:100;overflow-y:auto;padding:24px}
+.modal-content{max-width:700px;margin:40px auto;background:var(--card);border-radius:16px;border:1px solid var(--brd);padding:28px;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--t3);font-size:24px;cursor:pointer}
+.txn-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+.txn-table th{text-align:left;padding:8px;border-bottom:1px solid var(--brd);color:var(--t3);font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.txn-table td{padding:8px;border-bottom:1px solid var(--brd);color:var(--t2)}
+.txn-table tr:hover td{color:var(--t1)}
+.btn-det{display:inline-block;margin-top:8px;padding:8px 12px;border-radius:8px;border:1px solid var(--brd);font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .15s;background:none;margin-left:8px}
+.btn-det:hover{border-color:var(--brd2);color:var(--t1)}
 @keyframes pls{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--brd);border-top-color:var(--ac);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="hdr">
   <div style="display:flex;align-items:center;gap:8px">
     <span style="font-size:15px;font-weight:700">UAE Property</span>
@@ -106,10 +109,8 @@ input,select,button{font-family:inherit}
 </div>
 
 <div class="wrap">
-  <!-- SAVED SEARCHES -->
   <div id="saved"></div>
 
-  <!-- SEARCH BOX -->
   <div class="sbox">
     <div class="srow">
       <div class="locw" id="locwrap">
@@ -142,48 +143,46 @@ input,select,button{font-family:inherit}
     </div>
   </div>
 
-  <!-- DYNAMIC CONTENT -->
   <div id="errbox"></div>
   <div id="loadbox"></div>
   <div id="statsbox"></div>
   <div id="gridbox" class="grid"></div>
   <div id="pagbox"></div>
 
-  <!-- EMPTY STATE -->
   <div id="empty" style="text-align:center;padding:80px 24px">
     <div style="font-size:48px;margin-bottom:16px;opacity:.5">&#127968;</div>
     <div style="font-size:18px;font-weight:600;margin-bottom:8px">Search any location in the UAE</div>
-    <div style="font-size:14px;color:var(--t2);max-width:460px;margin:0 auto;line-height:1.6">Type a location, set your filters, and hit Search. Every sale listing shows price per sqft and estimated rental yield &mdash; pulled directly from Bayut&rsquo;s API.</div>
+    <div style="font-size:14px;color:var(--t2);max-width:460px;margin:0 auto;line-height:1.6">Type a location, set your filters, and hit Search. Every sale listing shows price per sqft and estimated rental yield with comparable rental listings.</div>
   </div>
 
-  <div style="text-align:center;padding:40px 0 20px;font-size:11px;color:var(--t3)">Data from Bayut API via RapidAPI &middot; Yield = avg rental comps &divide; sale price &middot; Not financial advice</div>
+  <div style="text-align:center;padding:40px 0 20px;font-size:11px;color:var(--t3)">Data from Bayut API via RapidAPI &middot; Yield estimates are approximate &middot; Not financial advice</div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modal-body"><div class="spinner"></div> Loading...</div>
+  </div>
 </div>
 
 <script>
-/* ---- State ---- */
-var loc = null;
-var items = [];
-var rent = null;
-var pg = 0;
-var tpg = 0;
-var ltmr = null;
+var loc = null, items = [], pg = 1, tpg = 0, ltmr = null;
 var svd = [];
-try { svd = JSON.parse(localStorage.getItem("svd2") || "[]"); } catch(e) { svd = []; }
+try { svd = JSON.parse(localStorage.getItem("svd3") || "[]"); } catch(e) { svd = []; }
 
 function $(id) { return document.getElementById(id); }
 function fm(n) { return n == null ? "\u2014" : n.toLocaleString("en-AE"); }
 function fa(n) { return n == null ? "\u2014" : "AED " + (n >= 1e6 ? (n/1e6).toFixed(2)+"M" : n >= 1e3 ? Math.round(n/1e3)+"K" : fm(n)); }
-function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+function esc(s) { if (!s) return ""; var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
-/* ---- API health check ---- */
+/* ---- API health ---- */
 fetch("/api/locations?q=dubai").then(function(r){return r.json()}).then(function(d){
   var el = $("apist");
   if (d.locations && d.locations.length > 0) { el.textContent = "BAYUT API CONNECTED"; el.className = "apib apiok"; }
   else { el.textContent = "API ERROR \u2014 check env vars"; el.className = "apib apierr"; }
   el.style.display = "inline";
-}).catch(function(){
-  var el = $("apist"); el.textContent = "API ERROR"; el.className = "apib apierr"; el.style.display = "inline";
-});
+}).catch(function(){ var el = $("apist"); el.textContent = "API ERROR"; el.className = "apib apierr"; el.style.display = "inline"; });
 
 /* ---- Location autocomplete ---- */
 var loci = $("loci");
@@ -206,14 +205,11 @@ loci.addEventListener("input", function() {
           }
           dd.innerHTML = html;
           dd.style.display = "block";
-          /* Attach click handlers */
           var divs = dd.querySelectorAll(".ddi");
           for (var j = 0; j < divs.length; j++) {
             divs[j].addEventListener("click", function() {
               loc = { id: this.getAttribute("data-id"), name: this.getAttribute("data-name"), path: this.getAttribute("data-path") };
-              loci.value = "";
-              loci.placeholder = loc.name;
-              dd.style.display = "none";
+              loci.value = ""; loci.placeholder = loc.name; dd.style.display = "none";
             });
           }
         } else { dd.style.display = "none"; }
@@ -223,19 +219,13 @@ loci.addEventListener("input", function() {
 loci.addEventListener("focus", function() { if ($("locd").children.length) $("locd").style.display = "block"; });
 document.addEventListener("click", function(e) { if (!e.target.closest("#locwrap")) $("locd").style.display = "none"; });
 
-/* ---- Toggle filters ---- */
-function togFilt() {
-  var el = $("fext");
-  el.style.display = el.style.display === "flex" ? "none" : "flex";
-}
+function togFilt() { var el = $("fext"); el.style.display = el.style.display === "flex" ? "none" : "flex"; }
 
 /* ---- Search ---- */
 function doSearch(page) {
-  if (page === undefined) page = 1;
   if (!loc) { showErr("Select a location first"); return; }
   pg = page;
-  showLoad(true);
-  clrErr();
+  showLoad(true); clrErr();
   $("empty").style.display = "none";
 
   var beds = $("fb").value;
@@ -261,25 +251,85 @@ function doSearch(page) {
       if (sx) list = list.filter(function(l){return l.pricePerSqft && l.pricePerSqft <= Number(sx)});
       items = list;
       tpg = d.pages || 0;
-
-      /* Fetch rental comps */
-      var rqs = "location_ids=" + encodeURIComponent(loc.id) + "&property_type=" + $("fc").value;
-      if (beds) rqs += "&rooms=" + beds;
-      fetch("/api/rentals?" + rqs)
-        .then(function(r){return r.json()})
-        .then(function(rd){ rent = rd.avgRentYearly || null; render(); })
-        .catch(function(){ rent = null; render(); });
-
       render();
       updHdr();
       showLoad(false);
+      /* Fetch per-listing comps */
+      for (var i = 0; i < items.length; i++) {
+        fetchComps(i);
+      }
     })
-    .catch(function(e) {
-      showErr(e.message || "Search failed");
-      items = [];
-      render();
-      showLoad(false);
-    });
+    .catch(function(e) { showErr(e.message || "Search failed"); items = []; render(); showLoad(false); });
+}
+
+/* ---- Per-listing rental comps ---- */
+function fetchComps(idx) {
+  var l = items[idx];
+  if (!l) return;
+  var locId = "";
+  if (l.locationIds && l.locationIds.length) locId = l.locationIds[l.locationIds.length - 1];
+  else if (loc) locId = loc.id;
+
+  var qs = "location_ids=" + encodeURIComponent(locId);
+  if (l.areaSqft) qs += "&area_sqft=" + l.areaSqft;
+  if (l.rooms != null) qs += "&rooms=" + l.rooms;
+  qs += "&property_type=" + $("fc").value;
+
+  fetch("/api/comps?" + qs)
+    .then(function(r){return r.json()})
+    .then(function(d) {
+      items[idx]._comps = d.comps || [];
+      items[idx]._avgRent = d.avgRent || null;
+      items[idx]._compCount = d.count || 0;
+      updateCard(idx);
+    }).catch(function(){});
+}
+
+/* ---- Update single card with comps data ---- */
+function updateCard(idx) {
+  var el = document.getElementById("comp-" + idx);
+  if (!el) return;
+  var l = items[idx];
+  if (!l._avgRent) { el.innerHTML = '<div style="color:var(--t3);font-size:11px">No rental comps found</div>'; return; }
+
+  var yp = l.price ? (l._avgRent / l.price * 100) : null;
+  var yc = yp >= 7 ? "var(--grn)" : yp >= 5 ? "var(--amb)" : yp ? "var(--cor)" : "var(--t3)";
+  var ybg = yp >= 7 ? "var(--grnb)" : yp >= 5 ? "var(--ambb)" : "var(--redb)";
+
+  var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">';
+  html += '<span style="color:var(--t2)">Est. Yield</span>';
+  if (yp) html += '<span class="mono" style="font-size:16px;font-weight:700;color:'+yc+'">'+yp.toFixed(1)+'%</span>';
+  html += '</div>';
+  html += '<div style="color:var(--t2)">Avg rent: <span class="mono" style="color:var(--t1);font-weight:600">'+fa(l._avgRent)+'</span>/yr</div>';
+  html += '<div style="color:var(--t3);margin-top:4px">Based on '+l._compCount+' similar rental'+(l._compCount!==1?'s':'')+'</div>';
+
+  /* Show comp links */
+  if (l._comps && l._comps.length) {
+    html += '<div style="margin-top:8px;border-top:1px solid var(--brd);padding-top:6px">';
+    html += '<div style="font-size:10px;font-weight:700;color:var(--t3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em">Similar Rentals</div>';
+    var max = Math.min(l._comps.length, 5);
+    for (var i = 0; i < max; i++) {
+      var c = l._comps[i];
+      html += '<div class="comp-item">';
+      html += '<div><a href="'+esc(c.url)+'" target="_blank" style="font-size:11px">'+esc(c.title ? c.title.substring(0,40) : "Rental listing")+'</a>';
+      if (c.areaSqft) html += ' <span style="color:var(--t3);font-size:10px">'+fm(c.areaSqft)+' sqft</span>';
+      html += '</div>';
+      html += '<div class="mono" style="font-size:11px;font-weight:600;color:var(--t1)">'+fa(c.rent)+'</div>';
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+
+  html += '<div class="yield-note">Estimated yield based on similar rental listings. Verify with actual unit-level rental data before making investment decisions.</div>';
+  el.innerHTML = html;
+
+  /* Update yield badge on card */
+  var badge = document.getElementById("yield-" + idx);
+  if (badge && yp) {
+    badge.innerHTML = '<div class="mono" style="font-size:14px;font-weight:700;color:'+yc+'">'+yp.toFixed(1)+'%</div><div style="font-size:9px;color:'+yc+';opacity:.8">yield</div>';
+    badge.style.background = ybg;
+    badge.style.display = "block";
+  }
 }
 
 /* ---- Render results ---- */
@@ -291,25 +341,18 @@ function render() {
   var med = prices.length ? prices[Math.floor(prices.length/2)] : null;
   var psfArr = items.filter(function(l){return l.pricePerSqft}).map(function(l){return l.pricePerSqft});
   var avgP = psfArr.length ? Math.round(psfArr.reduce(function(a,b){return a+b},0)/psfArr.length) : null;
-  var ay = rent && med ? (rent/med*100) : null;
   var chg = items.filter(function(l){return l.priceChanged}).length;
-  var yc = ay >= 7 ? "var(--grn)" : ay >= 5 ? "var(--amb)" : ay ? "var(--cor)" : "var(--t3)";
 
   s.innerHTML = '<div class="sbar">'
-    + '<div class="st"><div class="stl">Listings</div><div class="stv">'+fm(items.length)+'</div><div class="sts">page '+(pg+1)+'/'+(tpg||1)+'</div></div>'
-    + '<div class="st"><div class="stl">Median Price</div><div class="stv">'+(med?fa(med):"\u2014")+'</div></div>'
-    + '<div class="st"><div class="stl">Avg AED/sqft</div><div class="stv" style="color:var(--ac)">'+(avgP?"AED "+fm(avgP):"\u2014")+'</div></div>'
-    + '<div class="st"><div class="stl">Est. Avg Yield</div><div class="stv" style="color:'+yc+'">'+(ay?ay.toFixed(1)+"%":"\u2014")+'</div><div class="sts">'+(rent?"rent ~"+fa(Math.round(rent))+"/yr":"fetching...")+'</div></div>'
-    + (chg ? '<div class="st"><div class="stl">Price Changed</div><div class="stv" style="color:var(--amb)">'+chg+'</div></div>' : '')
-    + '</div>';
+    +'<div class="st"><div class="stl">Listings</div><div class="stv">'+fm(items.length)+'</div><div class="sts">page '+pg+' of '+(tpg||1)+'</div></div>'
+    +'<div class="st"><div class="stl">Median Price</div><div class="stv">'+(med?fa(med):"\u2014")+'</div></div>'
+    +'<div class="st"><div class="stl">Avg AED/sqft</div><div class="stv" style="color:var(--ac)">'+(avgP?"AED "+fm(avgP):"\u2014")+'</div></div>'
+    +(chg?'<div class="st"><div class="stl">Price Changed</div><div class="stv" style="color:var(--amb)">'+chg+'</div></div>':'')
+    +'</div>';
 
   var html = "";
   for (var i = 0; i < items.length; i++) {
     var l = items[i];
-    var yp = rent && l.price ? (rent/l.price*100) : null;
-    var lc = yp >= 7 ? "var(--grn)" : yp >= 5 ? "var(--amb)" : yp ? "var(--cor)" : "var(--t3)";
-    var lb = yp >= 7 ? "var(--grnb)" : yp >= 5 ? "var(--ambb)" : "var(--redb)";
-
     html += '<div class="cd">';
     if (l.photo) {
       html += '<div class="cimg"><img src="'+esc(l.photo)+'" onerror="this.style.display=\'none\'">';
@@ -326,7 +369,7 @@ function render() {
     html += '<div class="cpr">'+fa(l.price)+'</div>';
     if (l.priceChanged && l.updated) html += '<div style="font-size:11px;color:var(--amb);margin-top:3px">&#8635; Updated '+esc(l.updated)+'</div>';
     html += '</div>';
-    if (yp != null) html += '<div class="yld" style="background:'+lb+'"><div class="mono" style="font-size:14px;font-weight:700;color:'+lc+'">'+yp.toFixed(1)+'%</div><div style="font-size:9px;color:'+lc+';opacity:.8">yield</div></div>';
+    html += '<div class="yld" id="yield-'+i+'" style="display:none"></div>';
     html += '</div>';
     html += '<div class="ctt">'+esc(l.title)+'</div>';
     html += '<div class="csp">';
@@ -335,13 +378,17 @@ function render() {
     if (l.areaSqft) html += '<span>'+fm(l.areaSqft)+' sqft</span>';
     html += '</div>';
     html += '<div class="clc">'+esc(l.location)+'</div>';
-    if (rent) html += '<div class="rnt">Est. annual rent: <span class="mono" style="color:var(--t1);font-weight:600">'+fa(Math.round(rent))+'</span></div>';
+    /* Comps placeholder - filled async */
+    html += '<div class="comp-box" id="comp-'+i+'"><span class="spinner"></span> Finding rental comps...</div>';
     html += '<div style="margin-top:10px">';
     if (l.type) html += '<span class="tg">'+esc(l.type)+'</span>';
     if (l.furnishing) html += '<span class="tg">'+esc(l.furnishing)+'</span>';
     if (l.added) html += '<span style="float:right;font-size:10px;color:var(--t3);margin-top:6px">Listed '+esc(l.added)+'</span>';
     html += '</div>';
+    html += '<div style="margin-top:12px;display:flex;gap:8px">';
     if (l.url) html += '<a href="'+esc(l.url)+'" target="_blank" rel="noopener noreferrer" class="blnk">View on Bayut &#8599;</a>';
+    html += '<button class="btn-det" onclick="openDetail('+i+')">Transactions &#9656;</button>';
+    html += '</div>';
     html += '</div></div>';
   }
   g.innerHTML = html;
@@ -349,70 +396,138 @@ function render() {
   /* Pagination */
   if (tpg > 1) {
     var pb = '<div class="pag">';
-    pb += '<button class="btn2" '+(pg===0?'disabled':'')+' onclick="doSearch('+(pg-1)+')">&#8592; Prev</button>';
+    pb += '<button class="btn2" '+(pg<=1?'disabled':'')+' onclick="doSearch('+(pg-1)+')">&#8592; Prev</button>';
     var mx = Math.min(tpg, 7);
     for (var k = 0; k < mx; k++) {
-      var n = tpg <= 7 ? k : pg < 3 ? k : pg > tpg-4 ? tpg-7+k : pg-3+k;
-      pb += '<button class="pbtn'+(n===pg?' on':'')+'" onclick="doSearch('+n+')">'+(n+1)+'</button>';
+      var n = tpg <= 7 ? k+1 : pg < 4 ? k+1 : pg > tpg-3 ? tpg-6+k : pg-3+k;
+      pb += '<button class="pbtn'+(n===pg?' on':'')+'" onclick="doSearch('+n+')">'+n+'</button>';
     }
-    pb += '<button class="btn2" '+(pg>=tpg-1?'disabled':'')+' onclick="doSearch('+(pg+1)+')">Next &#8594;</button>';
+    pb += '<button class="btn2" '+(pg>=tpg?'disabled':'')+' onclick="doSearch('+(pg+1)+')">Next &#8594;</button>';
     pb += '</div>';
     p.innerHTML = pb;
   } else { p.innerHTML = ""; }
 }
+
+/* ---- Detail modal with transactions ---- */
+function openDetail(idx) {
+  var l = items[idx];
+  if (!l) return;
+  $("modal").style.display = "block";
+  document.body.style.overflow = "hidden";
+
+  var mb = $("modal-body");
+  mb.innerHTML = '<div style="text-align:center;padding:24px"><span class="spinner"></span> Loading transaction data...</div>';
+
+  /* Get the most specific location ID */
+  var locId = "";
+  if (l.locationIds && l.locationIds.length) locId = l.locationIds[l.locationIds.length - 1];
+  else if (loc) locId = loc.id;
+
+  var qs = "purpose=for-sale&location_ids=" + encodeURIComponent(locId) + "&time_period=12m&sort_by=date_desc";
+  if (l.rooms != null) qs += "&beds=" + l.rooms;
+  qs += "&category_ids=" + $("fc").value;
+  if (l.areaSqft) {
+    qs += "&area_min=" + Math.round(l.areaSqft * 0.7);
+    qs += "&area_max=" + Math.round(l.areaSqft * 1.3);
+  }
+
+  fetch("/api/transactions?" + qs)
+    .then(function(r){return r.json()})
+    .then(function(d) {
+      var html = '<h3 style="font-size:16px;font-weight:700;margin-bottom:4px">'+esc(l.title)+'</h3>';
+      html += '<div style="font-size:13px;color:var(--t2);margin-bottom:4px">'+fa(l.price)+' &middot; '+(l.areaSqft?fm(l.areaSqft)+' sqft':'')+(l.rooms!=null?' &middot; '+(l.rooms===0?'Studio':l.rooms+' Bed'):'')+'</div>';
+      html += '<div style="font-size:12px;color:var(--t3);margin-bottom:20px">'+esc(l.location)+'</div>';
+
+      html += '<h4 style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">Market Transactions (Last 12 months)</h4>';
+
+      var txns = d.transactions || [];
+      if (txns.length) {
+        html += '<table class="txn-table"><thead><tr><th>Date</th><th>Location</th><th>Area (sqft)</th><th>Price</th></tr></thead><tbody>';
+        for (var i = 0; i < txns.length; i++) {
+          var t = txns[i];
+          html += '<tr><td>'+esc(t.date)+'</td><td>'+esc(t.location)+'</td><td>'+(t.areaSqft?fm(t.areaSqft):'—')+'</td><td class="mono" style="font-weight:600">'+fa(t.price)+'</td></tr>';
+        }
+        html += '</tbody></table>';
+        html += '<div style="font-size:10px;color:var(--t3);margin-top:8px">'+txns.length+' transaction'+(txns.length!==1?'s':'')+' found &middot; Source: DLD via Bayut</div>';
+      } else {
+        html += '<div style="padding:24px;text-align:center;color:var(--t3)">No transactions found for this area and property type in the last 12 months.</div>';
+      }
+
+      /* Show rental comps if available */
+      if (l._comps && l._comps.length) {
+        html += '<h4 style="font-size:13px;font-weight:700;color:var(--t2);margin:24px 0 8px;text-transform:uppercase;letter-spacing:.08em">Rental Comparables ('+l._compCount+' found)</h4>';
+        html += '<table class="txn-table"><thead><tr><th>Listing</th><th>Area (sqft)</th><th>Annual Rent</th><th>Link</th></tr></thead><tbody>';
+        for (var j = 0; j < l._comps.length; j++) {
+          var c = l._comps[j];
+          html += '<tr><td>'+esc(c.title?c.title.substring(0,35):'Rental')+'</td><td>'+(c.areaSqft?fm(c.areaSqft):'—')+'</td><td class="mono" style="font-weight:600">'+fa(c.rent)+'</td>';
+          html += '<td><a href="'+esc(c.url)+'" target="_blank">Bayut &#8599;</a></td></tr>';
+        }
+        html += '</tbody></table>';
+        if (l._avgRent && l.price) {
+          var yy = (l._avgRent / l.price * 100);
+          html += '<div style="margin-top:12px;padding:12px;border-radius:8px;background:var(--bg);border:1px solid var(--brd)">';
+          html += '<span style="color:var(--t2)">Estimated Gross Yield: </span>';
+          html += '<span class="mono" style="font-size:18px;font-weight:700;color:'+(yy>=7?'var(--grn)':yy>=5?'var(--amb)':'var(--cor)')+'">'+yy.toFixed(1)+'%</span>';
+          html += '</div>';
+        }
+        html += '<div class="yield-note" style="margin-top:8px">Estimated yield based on similar rental listings in the same area. Actual yields may vary based on unit condition, floor level, view, service charges, and vacancy periods. Always verify with actual rental data before making investment decisions.</div>';
+      }
+
+      if (l.url) {
+        html += '<div style="margin-top:20px"><a href="'+esc(l.url)+'" target="_blank" class="blnk" style="display:inline-block">View full listing on Bayut &#8599;</a></div>';
+      }
+
+      mb.innerHTML = html;
+    })
+    .catch(function(e) {
+      mb.innerHTML = '<div style="color:var(--cor);padding:24px">Error loading transactions: '+esc(e.message)+'</div>';
+    });
+}
+
+function closeModal() {
+  $("modal").style.display = "none";
+  document.body.style.overflow = "";
+}
+$("modal").addEventListener("click", function(e) { if (e.target === $("modal")) closeModal(); });
 
 /* ---- Saved searches ---- */
 function renderSvd() {
   var el = $("saved");
   if (!svd.length) { el.innerHTML = ""; return; }
   var h = '<div class="lbl" style="margin-bottom:8px">Saved Searches</div><div>';
-  for (var i = 0; i < svd.length; i++) {
-    h += '<span class="svd"><span onclick="ldSrch('+i+')">'+esc(svd[i].label)+'</span><span onclick="dlSrch('+i+')">&times;</span></span>';
-  }
+  for (var i = 0; i < svd.length; i++) h += '<span class="svd"><span onclick="ldSrch('+i+')">'+esc(svd[i].label)+'</span><span onclick="dlSrch('+i+')">&times;</span></span>';
   el.innerHTML = h + '</div>';
 }
 function saveSrch() {
   if (!loc) return;
   var beds = $("fb").value;
-  var label = loc.name + (beds ? " \u00B7 " + (beds==="0" ? "Studio" : beds+"BR") : "");
-  svd.push({ label:label, loc:loc, fc:$("fc").value, fb:beds, fba:$("fba").value, fpn:$("fpn").value, fpx:$("fpx").value, fsn:$("fsn").value, fsx:$("fsx").value, ffu:$("ffu").value, fco:$("fco").value, fso:$("fso").value });
-  try { localStorage.setItem("svd2", JSON.stringify(svd)); } catch(e){}
+  svd.push({ label: loc.name + (beds ? " \u00B7 " + (beds==="0"?"Studio":beds+"BR") : ""), loc:loc, fc:$("fc").value, fb:beds, fba:$("fba").value, fpn:$("fpn").value, fpx:$("fpx").value, fsn:$("fsn").value, fsx:$("fsx").value, ffu:$("ffu").value, fco:$("fco").value, fso:$("fso").value });
+  try { localStorage.setItem("svd3", JSON.stringify(svd)); } catch(e){}
   renderSvd();
 }
 function ldSrch(i) {
-  var s = svd[i];
-  loc = s.loc; loci.value = ""; loci.placeholder = loc.name;
-  $("fc").value = s.fc||"4"; $("fb").value = s.fb||""; $("fba").value = s.fba||"";
+  var s = svd[i]; loc = s.loc; loci.value = ""; loci.placeholder = loc.name;
+  $("fc").value = s.fc||"apartments"; $("fb").value = s.fb||""; $("fba").value = s.fba||"";
   $("fpn").value = s.fpn||""; $("fpx").value = s.fpx||""; $("fsn").value = s.fsn||""; $("fsx").value = s.fsx||"";
   $("ffu").value = s.ffu||""; $("fco").value = s.fco||""; $("fso").value = s.fso||"popular";
 }
-function dlSrch(i) {
-  svd.splice(i, 1);
-  try { localStorage.setItem("svd2", JSON.stringify(svd)); } catch(e){}
-  renderSvd();
-}
+function dlSrch(i) { svd.splice(i,1); try{localStorage.setItem("svd3",JSON.stringify(svd))}catch(e){} renderSvd(); }
 renderSvd();
 
-/* ---- CSV Export ---- */
+/* ---- CSV ---- */
 function csvExport() {
-  var hd = ["Title","Price (AED)","Area (sqft)","AED/sqft","Beds","Baths","Type","Location","Furnishing","Status","Est. Yield %","Listed","Updated","Price Changed","Bayut URL"];
+  var hd = ["Title","Price (AED)","Area (sqft)","AED/sqft","Beds","Baths","Type","Location","Furnishing","Status","Est. Yield %","Avg Rent","Rental Comps","Listed","Updated","Price Changed","Bayut URL"];
   var rows = [hd.join(",")];
   for (var i = 0; i < items.length; i++) {
     var l = items[i];
-    var yp = rent && l.price ? ((rent/l.price)*100).toFixed(2) : "";
-    rows.push(['"'+(l.title||"").replace(/"/g,'""')+'"',l.price||"",l.areaSqft||"",l.pricePerSqft||"",l.rooms!=null?l.rooms:"",l.baths!=null?l.baths:"",l.type||"",'"'+(l.location||"")+'"',l.furnishing||"",l.completion||"",yp,l.added||"",l.updated||"",l.priceChanged?"Yes":"No",l.url||""].join(","));
+    var yp = l._avgRent && l.price ? ((l._avgRent/l.price)*100).toFixed(2) : "";
+    rows.push(['"'+(l.title||"").replace(/"/g,'""')+'"',l.price||"",l.areaSqft||"",l.pricePerSqft||"",l.rooms!=null?l.rooms:"",l.baths!=null?l.baths:"",l.type||"",'"'+(l.location||"")+'"',l.furnishing||"",l.completion||"",yp,l._avgRent||"",l._compCount||0,l.added||"",l.updated||"",l.priceChanged?"Yes":"No",l.url||""].join(","));
   }
   var blob = new Blob([rows.join("\n")], {type:"text/csv"});
-  var u = URL.createObjectURL(blob);
-  var a = document.createElement("a"); a.href = u; a.download = "uae-properties-"+new Date().toISOString().slice(0,10)+".csv"; a.click(); URL.revokeObjectURL(u);
+  var u = URL.createObjectURL(blob); var a = document.createElement("a"); a.href = u; a.download = "uae-properties-"+new Date().toISOString().slice(0,10)+".csv"; a.click(); URL.revokeObjectURL(u);
 }
 
-/* ---- Header buttons ---- */
-function updHdr() {
-  $("hdr-btns").innerHTML = items.length ? '<button class="btn2" onclick="csvExport()">&#8595; CSV</button>' : '';
-}
-
-/* ---- Helpers ---- */
+function updHdr() { $("hdr-btns").innerHTML = items.length ? '<button class="btn2" onclick="csvExport()">&#8595; CSV</button>' : ''; }
 function showErr(m) { $("errbox").innerHTML = m ? '<div class="err">'+esc(m)+'</div>' : ""; }
 function clrErr() { $("errbox").innerHTML = ""; }
 function showLoad(on) { $("loadbox").innerHTML = on ? '<div style="text-align:center;padding:60px 0;color:var(--t2)"><div style="font-size:28px;margin-bottom:8px;animation:pls 1.5s ease-in-out infinite">&#9678;</div><div>Fetching from Bayut API...</div></div>' : ""; }

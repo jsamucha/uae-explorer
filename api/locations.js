@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       var name = (l.name && l.name.en) ? l.name.en : (typeof l.name === "string" ? l.name : "");
       var id = l.externalID || l.id || "";
       if (name && id) {
-        locations.push({ id: String(id), name: name, path: l.path || "" });
+        locations.push({ id: String(id), name: name, path: l.path || "", level: l.level || 0 });
       }
     }
     return res.status(200).json({ locations: locations });
