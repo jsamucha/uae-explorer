@@ -19,6 +19,7 @@ export default async function handler(req, res) {
   if (p.is_furnished) params.set("is_furnished", p.is_furnished);
   if (p.completion_status && p.completion_status !== "any") params.set("completion_status", p.completion_status);
   if (p.sort_order) params.set("sort_order", p.sort_order);
+  if (p.developer_ids) params.set("developer_ids", p.developer_ids);
   if (p.purpose === "for-rent") params.set("rent_frequency", p.rent_frequency || "yearly");
 
   try {
